@@ -1,11 +1,10 @@
 import numpy as np 
-import matplotlib.pylab as plt
 from numpy import pi
 
 def calc_arm_pos(a,b,c):
-	q1_deg = 0
-	q2_deg = 30
-	q3_deg = 20
+	q1_deg = a
+	q2_deg = b
+	q3_deg = c
 
 	q1 = q1_deg*np.pi/180
 	q2 = q2_deg*np.pi/180
@@ -13,23 +12,23 @@ def calc_arm_pos(a,b,c):
 
 	# For now, eliminating rotation at the base
 
-	#T10 = np.matrix([
-	#	[np.cos(q1), -np.sin(q1), 0, 0],
-	#	[np.sin(q1), np.cos(q1), 0, 0],
-	#	[0, 0, 1, 0],
-	#	[0, 0, 0, 1],
-	#	])
+	T10 = np.matrix([
+		[np.cos(q1), -np.sin(q1), 0, 0],
+		[np.sin(q1), np.cos(q1), 0, 0],
+		[0, 0, 1, 0],
+		[0, 0, 0, 1],
+		])
 
 	p21 = np.matrix([[0], [0], [40], [1]])
 	p32 = np.matrix([[0], [0], [160], [1]])
 	p43 = np.matrix([[0], [0], [160], [1]])
 
-	T10 = np.matrix([
-		[1, 0, 0, 0],
-		[0, 1, 0, 0],
-		[0, 0, 1, 0],
-		[0, 0, 0, 1],
-		])
+	# T10 = np.matrix([
+	# 	[1, 0, 0, 0],
+	# 	[0, 1, 0, 0],
+	# 	[0, 0, 1, 0],
+	# 	[0, 0, 0, 1],
+	# 	])
 
 	T21 = np.matrix([
 		[np.cos(q2), 0, np.sin(q2), p21[0,0]],
@@ -68,7 +67,7 @@ def calc_arm_pos(a,b,c):
 	arm3_y = [0,0]
 	arm3_z = [arm2[2,0],arm3[2,0]]
 	arm3_coords = {'x':arm3_x, 'y':arm3_y, 'z':arm3_z}
-	return (arm1_coords, arm2_coords, arm3_coords)
+	return (arm1_coords, arm2_coords, arm3_coords, p40)
 
 
 #plt.plot(arm1_x,arm1_z, arm2_x,arm2_z, arm3_x, arm3_z)
