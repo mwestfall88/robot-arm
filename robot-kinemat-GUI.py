@@ -9,8 +9,6 @@ from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d import Axes3D
 
-
-
 #Initializes & Populates GUI
 
 def mOpen():
@@ -32,17 +30,18 @@ def mOpen():
 	output_labels = [0,0,0]
 	slider=[]
 	end_effector = [tk.DoubleVar(),tk.DoubleVar(),tk.DoubleVar()]
-	angle_label = "angle"
+
 
 	output_labels[0] = tk.Label(root1, text='X Position')
 	output_labels[1] = tk.Label(root1, text='Y Position')
 	output_labels[2] = tk.Label(root1, text='Z Position')
+	ee_label = tk.Label(root1, text='End Effector Position in Global Coords')
 
 	for ii in range(0, 3):
 		input_vars.append(tk.DoubleVar())
 		#output_vars.append(tk.DoubleVar())
 
-		angle_label = "angle " + str(ii + 1)
+		angle_label = "Angle " + str(ii + 1)
 		marker.append(tk.Label(root1, text=angle_label))
 
 	 	angle_in.append(tk.Entry(root1, textvariable=input_vars[ii]))
@@ -55,8 +54,8 @@ def mOpen():
 	 	angle_in[ii].grid(column=ii, row=1)
 	 	#outputs[ii].grid(column=ii, row=2)
 	 	slider[ii].grid(column = ii, row=2)
-	 	output[ii].grid(column = 1, row = 3+ii)
-	 	output_labels[ii].grid(column = 0, row = 3+ii)
+	 	output[ii].grid(column = 1, row = 4+ii)
+	 	output_labels[ii].grid(column = 0, row = 4+ii)
 
 
 	#output = tk.Label(root1, textvariable=end_effector[0])#variable=end_effector)
@@ -68,6 +67,8 @@ def mOpen():
 	# for ii in range(0,3):
 	# 	angle_in[ii].bind('<Return>', updatelabels)
 
+	ee_label.grid(column = 1, row=3)
+
 	f = Figure(figsize=(5,4), dpi=100)
 	a = f.add_subplot(111, projection='3d')
 	(arm1, arm2, arm3, eop) = robot_kinemat_model.calc_arm_pos(input_vars[0].get(),input_vars[1].get(),input_vars[2].get())
@@ -75,7 +76,7 @@ def mOpen():
 	a.plot(arm2['x'],arm2['y'], arm2['z'])
 	a.plot(arm3['x'],arm3['y'], arm3['z'])
 	axes = f.gca()
-	axes.set_xlim([300,-300])
+	axes.set_xlim([-300,300])
 	axes.set_ylim([200,-200])
 	axes.set_zlim([0,350])
 
@@ -93,7 +94,7 @@ def updateScale(event):
 	a.plot(arm2['x'],arm2['y'], arm2['z'])
 	a.plot(arm3['x'],arm3['y'], arm3['z'])
 	axes = f.gca()
-	axes.set_xlim([300,-300])
+	axes.set_xlim([-300,300])
 	axes.set_ylim([200,-200])
 	axes.set_zlim([0,350])
 	canvas.show()
